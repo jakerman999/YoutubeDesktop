@@ -21,6 +21,14 @@ namespace YoutubeDesktop
 		int width = 480;
 		int height = 270;
 
+		bool OPTautoplay = true;
+		bool OPTkeyboard = true;
+		bool OPTfullscreen = false;
+		bool OPTannotations = false;
+		bool OPTrelated = false;
+		bool OPTcaptions = false;
+		
+
 
 		public Player()
 		{
@@ -41,9 +49,38 @@ namespace YoutubeDesktop
 			webBrowser1.Refresh();
 		}
 
+		private string iFrameOptions()
+		{
+			string options = "?enablejsapi=1&amp;controls=2";
+
+			if (OPTautoplay) {
+				options += "&amp;autoplay=1";
+			}
+			if (OPTkeyboard) {
+				options += "&amp;disablekb=1";
+			}
+			if (!OPTfullscreen) {
+				options += "&amp;fs=0";
+			}
+			if (!OPTannotations) {
+				options += "&amp;iv_load_policy=3";
+			}
+			if (!OPTrelated) {
+				options += "&amp;rel=0";
+			}
+			if (OPTcaptions) {
+				options += "&amp;cc_load_policy=1";
+			}
+
+			//options += "&amp;origin=http%3A%2F%2Flocalhost";
+			options += "&amp;widgetid=1";
+
+			return options;
+		}
+
 		private string iFrameHtml() {
 			string html = "<iframe id=\"ytplayer\" type=\"text/html\" width=" + width + " height=" + height + "\n";
-			html += "src = \"https://www.youtube.com/embed/" + video + "?autoplay=1\"\n";
+			html += "src = \"https://www.youtube.com/embed/" + video + iFrameOptions() + "\n";
 			html +=	"frameborder = \"0\" /> ";
             return htmlPrefix + html + htmlSuffix;
 		}
